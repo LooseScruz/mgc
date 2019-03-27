@@ -9,6 +9,7 @@
 %token <int> INTCON
 %token <string> IDENT STRINGCON
 %token <bool> BOOLCON
+%token EOF
 
 %token CALL IFELSE INITDECL
 %token POS NEG NEWARRAY TYPEID FIELD
@@ -32,5 +33,13 @@
 %type <Ast.program> program
 
 %%
- program: {}
+
+program:
+  decls EOF { $1 }
+
+decls:
+   /* nothing */ { ([], [])               }
+ | decls vdecl { (($2 :: fst $1), snd $1) }
+ | decls fdecl { (fst $1, ($2 :: snd $1)) }
+ 
 %%

@@ -44,4 +44,5 @@ rule token = parse
 | digits '.'  digit* ( ['e' 'E'] ['+' '-']? digits )? as lxm { FLIT(lxm) }
 | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_']* { IDENT(lxm) }
 (*| _					{ CHARCON }*)
+| eof { EOF }
 | _ as char 		{ raise (Failure("illegal character " ^ Char.escaped char)) }
