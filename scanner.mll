@@ -5,8 +5,8 @@ let digits = digit+
 
 
 rule token indent_count = parse
-  [' ' '\r'] { indent_count lexbuf } (* Whitespace *)
-| '\t'				{ INDENT }
+  [' ' '\r'] { token indent_count lexbuf } (* Whitespace *)
+| '\t'				{ token indent_count lexbuf }
 | '\n'				{ NEWLINE }
 | "void"			{ VOID }
 | "char"			{ CHAR }
