@@ -39,6 +39,7 @@ rule token indent_count = parse
 | '{'      			{ LBRACE }
 | '}'      			{ RBRACE }
 | ','      			{ COMMA }
+| ':'				{ COLON }
 | "true"   			{ BOOLCON(true)  }
 | "false"  			{ BOOLCON(false) }
 | digits as lxm 	{ INTCON(int_of_string lxm) }
