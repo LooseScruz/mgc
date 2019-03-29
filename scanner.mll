@@ -4,9 +4,9 @@ let digit = ['0' - '9']
 let digits = digit+
 
 
-rule token indent_count = parse
-  [' ' '\r'] { token indent_count lexbuf } (* Whitespace *)
-| '\t'				{ token indent_count lexbuf }
+rule token = parse
+  [' ' '\r'] { token lexbuf } (* Whitespace *)
+| '\t'				{ token lexbuf }
 | '\n'				{ NEWLINE }
 | "void"			{ VOID }
 | "char"			{ CHAR }
