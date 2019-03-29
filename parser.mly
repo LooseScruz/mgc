@@ -20,7 +20,7 @@
 
 %token NEWSTRING RETURNVOID INDEX VARDECL FUNCTION
 %token PARAMLIST PROTOTYPE DECLID
-%token LPAREN RPAREN LBRACE RBRACE COMMA COLON
+%token LPAREN RPAREN COMMA COLON
 
 %token MUL ADD SUB MOD DIV
 %token ASSIGN NOT
@@ -57,7 +57,7 @@ decls:
  | decls fdecl { (fst $1, ($2 :: snd $1)) }
 
 fdecl:
-   typ IDENTIFIER LPAREN formals_opt RPAREN COLON LBRACE vdecl_list stmt_list RBRACE
+   typ IDENTIFIER LPAREN formals_opt RPAREN COLON INDENT vdecl_list stmt_list DEDENT
      { { typ = $1;
 	 fname = $2;
 	 formals = List.rev $4;
@@ -92,7 +92,7 @@ stmt_list:
 stmt:
     expr NEWLINE                               { Expr $1               }
   | RETURN expr_opt NEWLINE                    { Return $2             }
-  | LBRACE stmt_list RBRACE                 { Block(List.rev $2)    }
+  | INDENT stmt_list DEDENT                 { Block(List.rev $2)    }
   | IF LPAREN expr RPAREN stmt %prec NOELSE { If($3, $5, Block([])) }
   | IF LPAREN expr RPAREN stmt ELSE stmt    { If($3, $5, $7)        }
   | FOR LPAREN expr_opt NEWLINE expr NEWLINE expr_opt RPAREN stmt

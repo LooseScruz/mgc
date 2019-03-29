@@ -36,8 +36,8 @@ rule token = parse
 | '%'				{ MOD }
 | '('      			{ LPAREN }
 | ')'      			{ RPAREN }
-| '{'      			{ LBRACE }
-| '}'      			{ RBRACE }
+| '{'      			{ INDENT }
+| '}'      			{ DEDENT }
 | ','      			{ COMMA }
 | ':'				{ COLON }
 | "true"   			{ BOOLCON(true)  }
