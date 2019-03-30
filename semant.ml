@@ -1,4 +1,4 @@
-(* Semantic checking for the MicroC compiler *)
+(* Semantic checking for the mgc compiler *)
 
 open Ast
 open Sast
