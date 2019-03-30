@@ -90,24 +90,24 @@ stmt_list:
   | stmt_list stmt { $2 :: $1 }
 
 stmt:
-    expr NEWLINE                               { Expr $1               }
-  | RETURN expr_opt NEWLINE                    { Return $2             }
-  | INDENT stmt_list DEDENT                 { Block(List.rev $2)    }
-  | IF LPAREN expr RPAREN stmt %prec NOELSE { If($3, $5, Block([])) }
-  | IF LPAREN expr RPAREN stmt ELSE stmt    { If($3, $5, $7)        }
-  | FOR LPAREN expr_opt NEWLINE expr NEWLINE expr_opt RPAREN stmt
-                                            { For($3, $5, $7, $9)   }
-  | WHILE LPAREN expr RPAREN stmt           { While($3, $5)         }
+    expr NEWLINE                                  { Expr $1               }
+  | RETURN expr_opt NEWLINE                       { Return $2             }
+  | INDENT stmt_list DEDENT                       { Block(List.rev $2)    }
+  | IF LPAREN expr RPAREN COLON stmt %prec NOELSE { If($3, $6, Block([])) }
+  | IF LPAREN expr RPAREN COLON stmt ELSE COLON stmt    { If($3, $6, $9)        }
+  | FOR LPAREN expr_opt NEWLINE expr NEWLINE expr_opt RPAREN COLON stmt
+                                                  { For($3, $5, $7, $10)   }
+  | WHILE LPAREN expr RPAREN COLON stmt           { While($3, $6)         }
 
 expr_opt:
     /* nothing */ { Noexpr }
   | expr          { $1 }
 
 expr:
-    INTCON				{ Literal($1)            }
-  | FLOATCON	     	{ Fliteral($1)           }
-  | BOOLCON             { BoolLit($1)            }
-  | IDENTIFIER          { Id($1)                 }
+    INTCON				    { Literal($1)            }
+  | FLOATCON	     	  { Fliteral($1)           }
+  | BOOLCON           { BoolLit($1)            }
+  | IDENTIFIER        { Id($1)                 }
   | expr PLUS   expr 	{ Binop($1, Add,   $3)   }
   | expr MINUS  expr 	{ Binop($1, Sub,   $3)   }
   | expr TIMES  expr 	{ Binop($1, Mult,  $3)   }
@@ -120,9 +120,9 @@ expr:
   | expr GEQ    expr 	{ Binop($1, Geq,   $3)   }
   | expr AND    expr 	{ Binop($1, And,   $3)   }
   | expr OR     expr 	{ Binop($1, Or,    $3)   }
-  | MINUS expr %prec NOT 				{ Unop(Neg, $2)      }
-  | NOT expr         					{ Unop(Not, $2)          }
-  | IDENTIFIER ASSIGN expr   			{ Assign($1, $3)         }
+  | MINUS expr %prec NOT 				        { Unop(Neg, $2)      }
+  | NOT expr         					          { Unop(Not, $2)          }
+  | IDENTIFIER ASSIGN expr   			      { Assign($1, $3)         }
   | IDENTIFIER LPAREN args_opt RPAREN 	{ Call($1, $3)  }
   | LPAREN expr RPAREN 	{ $2                   }
 
