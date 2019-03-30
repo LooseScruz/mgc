@@ -7,7 +7,7 @@ let digits = digit+
 rule token = parse
   [' ' '\r'] { token lexbuf } (* Whitespace *)
 | '\t'				{ token lexbuf }
-| '\n'				{ NEWLINE }
+| '\n'				{ token lexbuf } (*{ NEWLINE }*)
 | "void"			{ VOID }
 | "char"			{ CHAR }
 | "int"				{ INT }
