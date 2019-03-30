@@ -1,5 +1,5 @@
 int main():
 {
-	int var = 1
+	bool var = true 
 	return 0
 }
