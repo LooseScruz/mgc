@@ -1,4 +1,4 @@
-OBJS = ast.cmo parser.cmo scanner.cmo mgc.cmo
+OBJS = ast.cmo parser.cmo scanner.cmo sast.cmo semant.cmo mgc.cmo
 
 mgc : $(OBJS)
 	ocamlc -o mgc $(OBJS)
@@ -27,3 +27,5 @@ parser.cmx: ast.cmi parser.cmi
 scanner.cmo: parser.cmi 
 scanner.cmx: parser.cmx 
 parser.cmi: ast.cmi 
+semant.cmo: semant.ml
+sast.cmo: sast.ml
