@@ -83,20 +83,20 @@ vdecl_list:
   | vdecl_list vdecl { $2 :: $1 }
 
 vdecl:
-   typ IDENTIFIER NEWLINE { ($1, $2) }
+   typ IDENTIFIER { ($1, $2) }
 
 stmt_list:
     /* nothing */  { [] }
   | stmt_list stmt { $2 :: $1 }
 
 stmt:
-    expr NEWLINE                                  { Expr $1               }
-  | RETURN expr_opt NEWLINE                       { Return $2             }
+    expr                                          { Expr $1               }
+  | RETURN expr_opt                               { Return $2             }
   | INDENT stmt_list DEDENT                       { Block(List.rev $2)    }
   | IF LPAREN expr RPAREN COLON stmt %prec NOELSE { If($3, $6, Block([])) }
   | IF LPAREN expr RPAREN COLON stmt ELSE COLON stmt    { If($3, $6, $9)        }
-  | FOR LPAREN expr_opt NEWLINE expr NEWLINE expr_opt RPAREN COLON stmt
-                                                  { For($3, $5, $7, $10)   }
+  | FOR LPAREN expr_opt expr expr_opt RPAREN COLON stmt
+                                                  { For($3, $4, $5, $8)   }
   | WHILE LPAREN expr RPAREN COLON stmt           { While($3, $6)         }
 
 expr_opt:

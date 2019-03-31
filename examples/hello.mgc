@@ -1,5 +1,4 @@
 int main():
-{
-	bool var = true 
-	return 0
-}
+{	bool b_var
+	b_var = true 
+	return 0 }
