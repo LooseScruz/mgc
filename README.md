@@ -7,3 +7,9 @@ To build:
 3. opam config env
 4. opam install llvm
 5. make
+
+
+Notes:
+
+String:
+	| '"' [^ '"']* '"' as lxm { STRINGCON (lxm)  }
