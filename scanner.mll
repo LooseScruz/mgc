@@ -22,6 +22,7 @@ rule token = parse
 | "struct"			{ STRUCT }
 | "null"			{ NULL }
 | "new"				{ NEW }
+| "const"			{ CONST }
 | "[]"				{ ARRAY }
 | "=="				{ EQ }
 | "!="				{ NE }

@@ -27,6 +27,8 @@
 
 %token INDENT DEDENT
 
+%token CONST
+
 %nonassoc NOELSE
 %nonassoc ELSE
 %right ASSIGN
