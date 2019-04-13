@@ -1,3 +1,4 @@
 int main():
-	int x = 5
-	y = x * x
+	int x
+	x = 5
+	print(x)
