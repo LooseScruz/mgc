@@ -1,5 +1,5 @@
 %{ open Ast
-   open Lex_TabCount
+   open Scanner_TC
  %}
 
 
@@ -43,7 +43,7 @@
 %right NOT
 
 %start program
-%type <Lex_TabCount.tc Ast.program> program
+%type <Scanner_TC.tc Ast.program> program
 
 %%
 

@@ -1,6 +1,5 @@
 {
 	open Parser
-	open Lex_TabCount
 }
 
 let digit = ['0' - '9']
@@ -10,9 +9,9 @@ let epsilon = ""
 
 
 rule token tab_cnt = parse
-  [' ' '\r'] { token lexbuf tab_cnt } (* Whitespace *)
-| '\t'				{ token lexbuf tab_cnt }
-| '\n'				{ token lexbuf tab_cnt } (*{ NEWLINE }*)
+  [' ' '\r'] { token tab_cnt lexbuf } (* Whitespace *)
+| '\t'				{ token (Scanner_TC.incr_current_tab_count tab_cnt) lexbuf }
+| '\n'				{ token tab_cnt lexbuf } (*{ NEWLINE }*)
 | "void"			{ VOID }
 | "char"			{ CHAR }
 | "int"				{ INT }
