@@ -1,5 +1,6 @@
 {
 	open Parser
+	open Scanner_TC
 }
 
 let digit = ['0' - '9']
@@ -11,7 +12,16 @@ let epsilon = ""
 rule token tab_cnt = parse
   [' ' '\r'] { token tab_cnt lexbuf } (* Whitespace *)
 | '\t'				{ token (Scanner_TC.incr_current_tab_count tab_cnt) lexbuf }
-| '\n'				{ token tab_cnt lexbuf } (*{ NEWLINE }*)
+| '\n'				{ token (Scanner_TC.adv_tab_count tab_cnt) lexbuf } (*{ NEWLINE }*)
+| epsilon 			{ let prev_tc = tab_cnt.last_tab_count in
+					  let curr_tc = tab_cnt.current_tab_count in
+					  if curr_tc < prev_tc then
+					  (Scanner_TC.decr_prev_tab_count tab_cnt; DEDENT)
+					  else if curr_tc > prev_tc then
+					  (Scanner_TC.incr_current_tab_count tab_cnt; INDENT)
+					  else _token tab_cnt lexbuf }
+
+and _token tab_cnt = parse
 | "void"			{ VOID }
 | "char"			{ CHAR }
 | "int"				{ INT }

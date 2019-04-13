@@ -1,5 +1,4 @@
 %{ open Ast
-   open Scanner_TC
  %}
 
 
