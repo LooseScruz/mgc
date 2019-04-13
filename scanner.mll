@@ -1,13 +1,18 @@
-{ open Parser }
+{
+	open Parser
+	open Lex_TabCount
+}
 
 let digit = ['0' - '9']
 let digits = digit+
 
+let epsilon = ""
 
-rule token = parse
-  [' ' '\r'] { token lexbuf } (* Whitespace *)
-| '\t'				{ token lexbuf }
-| '\n'				{ token lexbuf } (*{ NEWLINE }*)
+
+rule token tab_cnt = parse
+  [' ' '\r'] { token lexbuf tab_cnt } (* Whitespace *)
+| '\t'				{ token lexbuf tab_cnt }
+| '\n'				{ token lexbuf tab_cnt } (*{ NEWLINE }*)
 | "void"			{ VOID }
 | "char"			{ CHAR }
 | "int"				{ INT }

@@ -5,7 +5,7 @@
 #
 # See https://github.com/ocaml/ocamlbuild/blob/master/manual/manual.adoc
 
-mgc.native : mgc.ml parser.mly scanner.mll sast.ml semant.ml codegen.ml ast.ml
+mgc.native : mgc.ml Lex_TabCount.ml parser.mly scanner.mll sast.ml semant.ml codegen.ml ast.ml
 	opam config exec -- \
 	ocamlbuild -use-ocamlfind mgc.native
 

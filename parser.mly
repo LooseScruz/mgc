@@ -1,4 +1,6 @@
-%{ open Ast %}
+%{ open Ast
+   open Lex_TabCount
+ %}
 
 
 %token VOID CHAR INT STRING LONG FLOAT BOOL
@@ -41,7 +43,7 @@
 %right NOT
 
 %start program
-%type <Ast.program> program
+%type <Lex_TabCount.tc Ast.program> program
 
 %%
 
