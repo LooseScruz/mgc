@@ -7,8 +7,6 @@ type uop = Neg | Not
 
 type typ = Int | Bool | Float | Void
 
-type bind = typ * string
-
 type expr =
     Literal of int
   | Fliteral of string
@@ -19,6 +17,8 @@ type expr =
   | Assign of string * expr
   | Call of string * expr list
   | Noexpr
+  
+type bind = typ * string | typ * string * expr
 
 type stmt =
     Block of stmt list
