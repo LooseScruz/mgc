@@ -19,9 +19,9 @@ rule token tab_cnt = parse
 					  then (Scanner_TC.decr_prev_tab_count tab_cnt; DEDENT)
 					  else if curr_tc > prev_tc
 					  then (Scanner_TC.incr_prev_tab_count tab_cnt; INDENT)
-					  else _token tab_cnt lexbuf }
+					  else _token lexbuf }
 
-and _token tab_cnt = parse
+and _token = parse
 | "void"			{ VOID }
 | "char"			{ CHAR }
 | "int"				{ INT }

@@ -18,7 +18,7 @@ type expr =
   | Call of string * expr list
   | Noexpr
   
-type bind = typ * string | typ * string * expr
+type bind = typ * string(*  | typ * string * expr *)
 
 type stmt =
     Block of stmt list

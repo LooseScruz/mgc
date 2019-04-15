@@ -53,11 +53,6 @@ decls:
    /* nothing */ { ([], [])               }
  | decls vdecl { (($2 :: fst $1), snd $1) }
  | decls fdecl { (fst $1, ($2 :: snd $1)) }
- 
-decls:
-   /* nothing */ { ([], [])               }
- | decls vdecl { (($2 :: fst $1), snd $1) }
- | decls fdecl { (fst $1, ($2 :: snd $1)) }
 
 fdecl:
    typ IDENTIFIER LPAREN formals_opt RPAREN COLON INDENT vdecl_list stmt_list DEDENT
