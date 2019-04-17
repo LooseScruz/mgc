@@ -82,7 +82,6 @@ vdecl_list:
 
 vdecl:
     typ IDENTIFIER { ($1, $2) }
-  | typ IDENTIFIER ASSIGN expr { Assign($2, $4); ($1, $2) }
 
 stmt_list:
     /* nothing */  { [] }
@@ -92,11 +91,18 @@ stmt:
     expr                                          { Expr $1               }
   | RETURN expr_opt                               { Return $2             }
   | INDENT stmt_list DEDENT                       { Block(List.rev $2)    }
-  | IF LPAREN expr RPAREN COLON stmt %prec NOELSE { If($3, $6, Block([])) }
-  | IF LPAREN expr RPAREN COLON stmt ELSE COLON stmt    { If($3, $6, $9)        }
   | FOR LPAREN expr_opt expr expr_opt RPAREN COLON stmt
                                                   { For($3, $4, $5, $8)   }
+  | stmt_if                                       { $1 }
   | WHILE LPAREN expr RPAREN COLON stmt           { While($3, $6)         }
+
+stmt_if:
+  | IF LPAREN expr RPAREN COLON stmt stmt_if_end { If($3, $6, Block([])) }
+
+stmt_if_end:
+| { Block([]) }
+| ELSE IF LPAREN expr RPAREN COLON stmt stmt_if_end  { If($4, $7, $8) }
+| ELSE COLON stmt                                    { $3 }
 
 expr_opt:
     /* nothing */ { Noexpr }
