@@ -64,9 +64,11 @@ let rec string_of_sstmt = function
       string_of_sexpr e3  ^ ") " ^ string_of_sstmt s
   | SWhile(e, s) -> "while (" ^ string_of_sexpr e ^ ") " ^ string_of_sstmt s
 
+let secnd (_, s, _) = s
+
 let string_of_sfdecl fdecl =
   string_of_typ fdecl.styp ^ " " ^
-  fdecl.sfname ^ "(" ^ String.concat ", " (List.map snd fdecl.sformals) ^
+  fdecl.sfname ^ "(" ^ String.concat ", " (List.map secnd fdecl.sformals) ^
   ")\n{\n" ^
   String.concat "" (List.map string_of_vdecl fdecl.slocals) ^
   String.concat "" (List.map string_of_sstmt fdecl.sbody) ^

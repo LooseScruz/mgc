@@ -81,7 +81,8 @@ vdecl_list:
   | vdecl_list vdecl { $2 :: $1 }
 
 vdecl:
-    typ IDENTIFIER { ($1, $2) }
+    typ IDENTIFIER { ($1, $2, None) }
+  | typ IDENTIFIER ASSIGN expr { ($1, $2, Some $4) }
 
 stmt_list:
     /* nothing */  { [] }
