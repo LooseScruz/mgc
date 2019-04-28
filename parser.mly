@@ -97,7 +97,7 @@ stmt:
   | WHILE LPAREN expr RPAREN COLON stmt           { While($3, $6)         }
 
 stmt_if:
-  | IF LPAREN expr RPAREN COLON stmt stmt_if_end { If($3, $6, Block([])) }
+  | IF LPAREN expr RPAREN COLON stmt stmt_if_end { If($3, $6, $7) }
 
 stmt_if_end:
 | { Block([]) }
