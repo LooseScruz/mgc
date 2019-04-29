@@ -34,11 +34,12 @@ let translate (globals, functions) =
   and void_t     = L.void_type   context in
 
   (* Return the LLVM type for a MGC type *)
-  let ltype_of_typ = function
+  let rec ltype_of_typ = function
       A.Int   -> i32_t
     | A.Bool  -> i1_t
     | A.Float -> float_t
     | A.Void  -> void_t
+    | A.Const(t) -> ltype_of_typ t
   in
 
   (* Create a map of global variables after creating each *)

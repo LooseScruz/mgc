@@ -5,7 +5,12 @@ type op = Add | Sub | Mult | Div | Equal | Neq | Less | Leq | Greater | Geq |
 
 type uop = Neg | Not
 
-type typ = Int | Bool | Float | Void
+(* type cons_typ =
+  | ConstInt of int
+  | ConstBool of bool
+  | ConstFloat of float *)
+
+type typ = Int | Bool | Float | Void | Const of typ
 
 type expr =
     Literal of int
@@ -85,11 +90,12 @@ let rec string_of_stmt = function
       string_of_expr e3  ^ ") " ^ string_of_stmt s
   | While(e, s) -> "while (" ^ string_of_expr e ^ ") " ^ string_of_stmt s
 
-let string_of_typ = function
+let rec string_of_typ = function
     Int -> "int"
   | Bool -> "bool"
   | Float -> "float"
   | Void -> "void"
+  | Const(t) -> "const " ^ string_of_typ t
 
 let string_of_vdecl (t, id) = string_of_typ t ^ " " ^ id ^ ";\n"
 

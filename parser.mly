@@ -75,6 +75,7 @@ typ:
   | BOOL  { Bool  }
   | FLOAT { Float }
   | VOID  { Void  }
+  | CONST typ {Const($2)}
 
 vdecl_list:
     /* nothing */    { [] }
@@ -82,6 +83,7 @@ vdecl_list:
 
 vdecl:
     typ IDENTIFIER { ($1, $2) }
+
 
 stmt_list:
     /* nothing */  { [] }
