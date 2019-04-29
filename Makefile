@@ -7,7 +7,7 @@
 
 mgc.native : mgc.ml Scanner_TC.ml parser.mly scanner.mll sast.ml semant.ml codegen.ml ast.ml
 	opam config exec -- \
-	ocamlbuild -use-ocamlfind mgc.native
+	ocamlbuild -cflag='-g' -use-ocamlfind mgc.native
 
 # "make clean" removes all generated files
 

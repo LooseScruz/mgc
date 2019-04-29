@@ -76,7 +76,9 @@ let check (globals, functions) =
     (* Raise an exception if the given rvalue type cannot be assigned to
        the given lvalue type *)
     let check_assign lvaluet rvaluet err =
-       if lvaluet = rvaluet then lvaluet else raise (Failure err)
+      match rvaluet with
+       | Const (t) -> if lvaluet = t then lvaluet else raise (Failure err)
+       | _ -> if lvaluet = rvaluet then lvaluet else raise (Failure err)
     in   
 
     (* Build local symbol table of variables for this function *)
