@@ -67,8 +67,8 @@ formals_opt:
   | formal_list   { $1 }
 
 formal_list:
-    typ IDENTIFIER                   { [($1,$2)]     }
-  | formal_list COMMA typ IDENTIFIER { ($3,$4) :: $1 }
+    typ IDENTIFIER                   { [($1,$2, None)]     }
+  | formal_list COMMA typ IDENTIFIER { ($3,$4, None) :: $1 }
 
 typ:
     INT   { Int   }
