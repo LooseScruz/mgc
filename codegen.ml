@@ -93,8 +93,12 @@ let translate (globals, functions) =
       (* Allocate space for any locally declared variables and add the
        * resulting registers to our map *)
       and add_local m (t, n, v) =
-	let local_var = L.build_alloca (ltype_of_typ t) n builder
-	in StringMap.add n local_var m 
+	let local_var = L.build_alloca (ltype_of_typ t) n builder in
+  match v with
+  | None -> ();
+  | Some va -> ignore (L.build_store (StringMap.find n m) va builder);
+  ;
+  StringMap.add n local_var m 
       in
 
       let formals = List.fold_left2 add_formal StringMap.empty fdecl.sformals
