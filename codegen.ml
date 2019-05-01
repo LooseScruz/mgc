@@ -168,7 +168,7 @@ let translate (globals, functions) =
 	let local_var = L.build_alloca (ltype_of_typ t) n builder in
   match v with
   | None -> ();
-  | Some va -> ignore (L.build_store (StringMap.find n m) (expr builder va));
+  | Some va -> expr builder SAssign (n; va);
   ;
   StringMap.add n local_var m 
       in
