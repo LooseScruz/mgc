@@ -3,7 +3,7 @@
 
 
 %token VOID CHAR INT STRING LONG FLOAT BOOL
-%token IF ELSE WHILE RETURN STRUCT FOR
+%token IF ELSE WHILE RETURN STRUCT FOR DO
 %token NULL NEW ARRAY
 %token EQ NE LT LE GT GE
 %token <char> CHARCON
@@ -23,7 +23,7 @@
 %token PARAMLIST PROTOTYPE DECLID
 %token LPAREN RPAREN COMMA COLON
 
-%token MUL ADD SUB MOD DIV
+%token MUL PLUS MINUS MOD DIV
 %token ASSIGN NOT
 
 %token INDENT DEDENT
@@ -95,6 +95,7 @@ stmt:
                                                   { For($3, $4, $5, $8)   }
   | stmt_if                                       { $1 }
   | WHILE LPAREN expr RPAREN COLON stmt           { While($3, $6)         }
+  | DO COLON stmt WHILE LPAREN expr RPAREN        { DoWhile($6, $3)}
 
 stmt_if:
   | IF LPAREN expr RPAREN COLON stmt stmt_if_end { If($3, $6, $7) }

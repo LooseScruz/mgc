@@ -130,7 +130,7 @@ let translate (globals, functions) =
 	  | A.Leq     -> L.build_fcmp L.Fcmp.Ole
 	  | A.Greater -> L.build_fcmp L.Fcmp.Ogt
 	  | A.Geq     -> L.build_fcmp L.Fcmp.Oge
-	  | A.And | A.Or ->
+	  | A.And | A.Or | A.Mod ->
 	      raise (Failure "internal error: semant should have rejected and/or on float")
 	  ) e1' e2' "tmp" builder
       | SBinop (e1, op, e2) ->
@@ -230,6 +230,20 @@ let translate (globals, functions) =
       (* Implement for loops as while loops *)
       | SFor (e1, e2, e3, body) -> stmt builder
 	    ( SBlock [SExpr e1 ; SWhile (e2, SBlock [body ; SExpr e3]) ] )
+      | SDoWhile (predicate, body) -> (* TODO!!! *)
+    let pred_bb = L.append_block context "dowhile" the_function in
+    ignore(L.build_br pred_bb builder);
+
+    let body_bb = L.append_block context "dowhile_body" the_function in
+    add_terminal (stmt (L.builder_at_end context body_bb) body)
+      (L.build_br pred_bb);
+
+    let pred_builder = L.builder_at_end context pred_bb in
+    let bool_val = expr pred_builder predicate in
+
+    let merge_bb = L.append_block context "merge" the_function in
+    ignore(L.build_cond_br bool_val body_bb merge_bb pred_builder);
+    L.builder_at_end context merge_bb
     in
 
     (* Build the code for each statement in the function *)

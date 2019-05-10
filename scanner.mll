@@ -32,6 +32,7 @@ and _token = parse
 | "if"				{ IF }
 | "else"			{ ELSE }
 | "while"			{ WHILE }
+| "do"				{ DO }
 | "return"			{ RETURN }
 | "struct"			{ STRUCT }
 | "null"			{ NULL }
@@ -45,8 +46,8 @@ and _token = parse
 | '>'				{ GT }
 | ">="				{ GE }
 | '='				{ ASSIGN }
-| '+'				{ ADD }
-| '-'				{ SUB }
+| '+'				{ PLUS }
+| '-'				{ MINUS }
 | '/'				{ DIV }
 | '*'				{ MUL }
 | '%'				{ MOD }
