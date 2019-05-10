@@ -1,0 +1,6 @@
+int main():
+	int x
+	x = 0
+	do:
+		print(x)
+	while(x < 0)
