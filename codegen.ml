@@ -230,11 +230,14 @@ let translate (globals, functions) =
       (* Implement for loops as while loops *)
       | SFor (e1, e2, e3, body) -> stmt builder
 	    ( SBlock [SExpr e1 ; SWhile (e2, SBlock [body ; SExpr e3]) ] )
+
       | SDoWhile (predicate, body) -> (* TODO!!! *)
-    let pred_bb = L.append_block context "dowhile" the_function in
-    ignore(L.build_br pred_bb builder);
 
     let body_bb = L.append_block context "dowhile_body" the_function in
+
+    let pred_bb = L.append_block context "dowhile" the_function in
+    ignore(L.build_br body_bb builder);
+    
     add_terminal (stmt (L.builder_at_end context body_bb) body)
       (L.build_br pred_bb);
 
