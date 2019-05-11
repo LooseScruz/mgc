@@ -2,5 +2,10 @@ int main():
 	int x
 	x = 0
 	do:
-		print(x)
+		print(1)
 	while(x < 0)
+	
+	do:
+		print(2)
+		x = x + 1
+	while(x < 2)
