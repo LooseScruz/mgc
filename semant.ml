@@ -41,7 +41,8 @@ let check (globals, functions) =
     in List.fold_left add_bind StringMap.empty [ ("print", Int);
 			                         ("printb", Bool);
 			                         ("printf", Float);
-			                         ("printbig", Int) ]
+			                         ("printbig", Int);
+                               ("printd", Double) ]
   in
 
   (* Add function name to symbol table *)
@@ -76,7 +77,9 @@ let check (globals, functions) =
     (* Raise an exception if the given rvalue type cannot be assigned to
        the given lvalue type *)
     let check_assign lvaluet rvaluet err =
-       if lvaluet = rvaluet then lvaluet else raise (Failure err)
+    match lvaluet with
+    Double -> if rvaluet = Float then rvaluet else raise (Failure err)
+    | _ -> if lvaluet = rvaluet then lvaluet else raise (Failure err)
     in   
 
     (* Build local symbol table of variables for this function *)
@@ -121,6 +124,7 @@ let check (globals, functions) =
           let ty = match op with
             Add | Sub | Mult | Div | Mod when same && t1 = Int   -> Int
           | Add | Sub | Mult | Div when same && t1 = Float -> Float
+          | Add | Sub | Mult | Div when same && t1 = Double -> Double
           | Equal | Neq            when same               -> Bool
           | Less | Leq | Greater | Geq
                      when same && (t1 = Int || t1 = Float) -> Bool

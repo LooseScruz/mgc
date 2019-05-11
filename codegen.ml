@@ -30,15 +30,17 @@ let translate (globals, functions) =
   let i32_t      = L.i32_type    context
   and i8_t       = L.i8_type     context
   and i1_t       = L.i1_type     context
-  and float_t    = L.double_type context
+  and float_t    = L.float_type  context
+  and double_t   = L.double_type context
   and void_t     = L.void_type   context in
 
   (* Return the LLVM type for a MGC type *)
   let ltype_of_typ = function
-      A.Int   -> i32_t
-    | A.Bool  -> i1_t
-    | A.Float -> float_t
-    | A.Void  -> void_t
+      A.Int     -> i32_t
+    | A.Bool    -> i1_t
+    | A.Float   -> float_t
+    | A.Double  -> double_t
+    | A.Void    -> void_t
   in
 
   (* Create a map of global variables after creating each *)
@@ -59,6 +61,11 @@ let translate (globals, functions) =
       L.function_type i32_t [| i32_t |] in
   let printbig_func : L.llvalue =
       L.declare_function "printbig" printbig_t the_module in
+
+  let printd_t : L.lltype =
+      L.function_type double_t [| double_t |] in
+  let printd_func : L.llvalue =
+      L.declare_function "printd" printd_t the_module in
 
   (* Define each function (arguments and return type) so we can 
      call it even before we've created its body *)
@@ -161,7 +168,9 @@ let translate (globals, functions) =
 	  L.build_call printf_func [| int_format_str ; (expr builder e) |]
 	    "printf" builder
       | SCall ("printbig", [e]) ->
-	  L.build_call printbig_func [| (expr builder e) |] "printbig" builder
+    L.build_call printbig_func [| (expr builder e) |] "printbig" builder
+      | SCall ("printd", [e]) ->
+    L.build_call printd_func [| (expr builder e) |] "printd" builder
       | SCall ("printf", [e]) -> 
 	  L.build_call printf_func [| float_format_str ; (expr builder e) |]
 	    "printf" builder

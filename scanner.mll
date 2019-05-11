@@ -29,6 +29,7 @@ and _token = parse
 | "long"			{ LONG }
 | "bool"			{ BOOL }
 | "float"			{ FLOAT }
+| "double"			{ DOUBLE }
 | "if"				{ IF }
 | "else"			{ ELSE }
 | "while"			{ WHILE }
@@ -48,8 +49,8 @@ and _token = parse
 | '='				{ ASSIGN }
 | '+'				{ PLUS }
 | '-'				{ MINUS }
-| '/'				{ DIV }
-| '*'				{ MUL }
+| '/'				{ DIVIDE }
+| '*'				{ TIMES }
 | '%'				{ MOD }
 | '('      			{ LPAREN }
 | ')'      			{ RPAREN }

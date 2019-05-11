@@ -2,7 +2,7 @@
  %}
 
 
-%token VOID CHAR INT STRING LONG FLOAT BOOL
+%token VOID CHAR INT STRING LONG FLOAT DOUBLE BOOL
 %token IF ELSE WHILE RETURN STRUCT FOR DO
 %token NULL NEW ARRAY
 %token EQ NE LT LE GT GE
@@ -23,7 +23,7 @@
 %token PARAMLIST PROTOTYPE DECLID
 %token LPAREN RPAREN COMMA COLON
 
-%token MUL PLUS MINUS MOD DIV
+%token TIMES DIVIDE PLUS MINUS MOD
 %token ASSIGN NOT
 
 %token INDENT DEDENT
@@ -71,10 +71,11 @@ formal_list:
   | formal_list COMMA typ IDENTIFIER { ($3,$4) :: $1 }
 
 typ:
-    INT   { Int   }
-  | BOOL  { Bool  }
-  | FLOAT { Float }
-  | VOID  { Void  }
+    INT     { Int   }
+  | BOOL    { Bool  }
+  | FLOAT   { Float }
+  | DOUBLE  { Double }
+  | VOID    { Void  }
 
 vdecl_list:
     /* nothing */    { [] }
@@ -118,7 +119,7 @@ expr:
   | expr MINUS  expr 	{ Binop($1, Sub,   $3)   }
   | expr TIMES  expr 	{ Binop($1, Mult,  $3)   }
   | expr DIVIDE expr  { Binop($1, Div,   $3)   }
-  | expr MOD expr  { Binop($1, Mod,   $3)   }
+  | expr MOD expr     { Binop($1, Mod,   $3)   }
   | expr EQ     expr 	{ Binop($1, Equal, $3)   }
   | expr NEQ    expr 	{ Binop($1, Neq,   $3)   }
   | expr LT     expr 	{ Binop($1, Less,  $3)   }
