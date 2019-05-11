@@ -4,9 +4,4 @@ int main():
 	double d
 	double twod
 	double dr
-	d = 2147483647.
 	f = 2147483647.
-	two = 2.
-	twod = 2.
-	printf (two * f)
-	dr = twod * d
