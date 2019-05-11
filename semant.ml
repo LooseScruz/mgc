@@ -78,8 +78,8 @@ let check (globals, functions) =
        the given lvalue type *)
     let check_assign lvaluet rvaluet err =
     match lvaluet with
-    Double -> if rvaluet = Float then rvaluet else raise (Failure err)
-    | _ -> if lvaluet = rvaluet then lvaluet else raise (Failure err)
+    Double -> if rvaluet = Float then rvaluet else (if rvaluet = Double then rvaluet else raise (Failure err))
+    | _ -> if lvaluet = rvaluet then (print_string("same"); lvaluet) else raise (Failure err)
     in   
 
     (* Build local symbol table of variables for this function *)
