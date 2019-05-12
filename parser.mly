@@ -76,6 +76,7 @@ typ:
   | FLOAT   { Float }
   | DOUBLE  { Double }
   | VOID    { Void  }
+  | CONST typ {Const($2)}
 
 vdecl_list:
     /* nothing */    { [] }
