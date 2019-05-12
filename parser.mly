@@ -107,6 +107,18 @@ stmt_if_end:
 | ELSE IF LPAREN expr RPAREN COLON stmt stmt_if_end  { If($4, $7, $8) }
 | ELSE COLON stmt                                    { $3 }
 
+term:
+    factor            { $1                   }
+  | term TIMES factor { Binop($1, Mult, $3) }
+  | term DIVIDE factor{ Binop($1, Div, $3)}
+
+factor:
+    IDENTIFIER          { Id($1)       }
+  | INTCON              { Literal($1)  }
+  | FLOATCON            { Fliteral($1) }
+  | BOOLCON             { BoolLit($1)  }
+  | LPAREN expr RPAREN  { $2           }
+
 expr_opt:
     /* nothing */ { Noexpr }
   | expr          { $1 }
@@ -116,10 +128,8 @@ expr:
   | FLOATCON	     	  { Fliteral($1)           }
   | BOOLCON           { BoolLit($1)            }
   | IDENTIFIER        { Id($1)                 }
-  | expr PLUS   expr 	{ Binop($1, Add,   $3)   }
-  | expr MINUS  expr 	{ Binop($1, Sub,   $3)   }
-  | expr TIMES  expr 	{ Binop($1, Mult,  $3)   }
-  | expr DIVIDE expr  { Binop($1, Div,   $3)   }
+  | expr PLUS   term 	{ Binop($1, Add,   $3)   }
+  | expr MINUS  term 	{ Binop($1, Sub,   $3)   }
   | expr MOD expr     { Binop($1, Mod,   $3)   }
   | expr EQ     expr 	{ Binop($1, Equal, $3)   }
   | expr NEQ    expr 	{ Binop($1, Neq,   $3)   }
@@ -133,8 +143,11 @@ expr:
   | NOT expr         					          { Unop(Not, $2)          }
   | IDENTIFIER ASSIGN expr              { Assign($1, $3)         }
   | IDENTIFIER CONSTASSIGN expr         { ConstAssign($1, $3)         }
+  | IDENTIFIER ASSIGN term              { Assign($1, $3)         }
+  | IDENTIFIER CONSTASSIGN term         { ConstAssign($1, $3)         }
   | IDENTIFIER LPAREN args_opt RPAREN 	{ Call($1, $3)  }
-  | LPAREN expr RPAREN 	{ $2                   }
+  | LPAREN expr RPAREN  { $2                   }
+  | LPAREN term RPAREN  { $2                   }
 
 args_opt:
     /* nothing */ { [] }
