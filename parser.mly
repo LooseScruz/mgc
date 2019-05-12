@@ -24,7 +24,7 @@
 %token LPAREN RPAREN COMMA COLON
 
 %token TIMES DIVIDE PLUS MINUS MOD
-%token ASSIGN NOT
+%token ASSIGN CONSTASSIGN NOT
 
 %token INDENT DEDENT
 
@@ -32,7 +32,7 @@
 
 %nonassoc NOELSE
 %nonassoc ELSE
-%right ASSIGN
+%right ASSIGN CONSTASSIGN
 %left OR
 %left AND
 %left EQ NEQ
@@ -131,7 +131,8 @@ expr:
   | expr OR     expr 	{ Binop($1, Or,    $3)   }
   | MINUS expr %prec NOT 				        { Unop(Neg, $2)      }
   | NOT expr         					          { Unop(Not, $2)          }
-  | IDENTIFIER ASSIGN expr   			      { Assign($1, $3)         }
+  | IDENTIFIER ASSIGN expr              { Assign($1, $3)         }
+  | IDENTIFIER CONSTASSIGN expr         { ConstAssign($1, $3)         }
   | IDENTIFIER LPAREN args_opt RPAREN 	{ Call($1, $3)  }
   | LPAREN expr RPAREN 	{ $2                   }
 

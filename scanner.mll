@@ -53,6 +53,7 @@ and _token = parse
 | '>'				{ GT }
 | ">="				{ GE }
 | '='				{ ASSIGN }
+| ":="				{ CONSTASSIGN }
 | '+'				{ PLUS }
 | '-'				{ MINUS }
 | '/'				{ DIVIDE }

@@ -86,6 +86,13 @@ let check (globals, functions) =
       | _ -> if lvaluet = rvaluet then (print_string("same"); lvaluet) else raise (Failure err))
     in   
 
+    let check_const_assign lvaluet rvaluet err =
+    match lvaluet with
+    | Const(typ) -> check_assign typ rvaluet err
+    | _ -> check_assign lvaluet rvaluet err
+
+    in 
+
     (* Build local symbol table of variables for this function *)
     let symbols = List.fold_left (fun m (ty, name) -> StringMap.add name ty m)
 	                StringMap.empty (globals @ func.formals @ func.locals )
@@ -110,6 +117,12 @@ let check (globals, functions) =
           let err = "illegal assignment " ^ string_of_typ lt ^ " = " ^ 
             string_of_typ rt ^ " in " ^ string_of_expr ex
           in (check_assign lt rt err, SAssign(var, (rt, e')))
+      | ConstAssign(var, e) as ex -> 
+          let lt = type_of_identifier var
+          and (rt, e') = expr e in
+          let err = "illegal assignment " ^ string_of_typ lt ^ " = " ^ 
+            string_of_typ rt ^ " in " ^ string_of_expr ex
+          in (check_const_assign lt rt err, SAssign(var, (rt, e')))
       | Unop(op, e) as ex -> 
           let (t, e') = expr e in
           let ty = match op with
