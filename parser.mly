@@ -5,7 +5,7 @@
 %token VOID CHAR INT STRING LONG FLOAT DOUBLE BOOL
 %token IF ELSE WHILE RETURN STRUCT FOR DO
 %token NULL NEW ARRAY
-%token EQ NE LT LE GT GE
+%token EQ NEQ LT LE GT GE
 %token <char> CHARCON
 %token <int> INTCON
 %token <string> FLOATCON
@@ -23,7 +23,7 @@
 %token PARAMLIST PROTOTYPE DECLID
 %token LPAREN RPAREN COMMA COLON
 
-%token TIMES DIVIDE PLUS MINUS MOD
+%token TIMES DIVIDE PLUS MINUS MOD BITOR BITAND OR AND XOR
 %token ASSIGN CONSTASSIGN NOT
 
 %token INDENT DEDENT
@@ -128,7 +128,8 @@ expr:
   | expr GT     expr 	{ Binop($1, Greater, $3) }
   | expr GEQ    expr 	{ Binop($1, Geq,   $3)   }
   | expr AND    expr 	{ Binop($1, And,   $3)   }
-  | expr OR     expr 	{ Binop($1, Or,    $3)   }
+  | expr OR     expr  { Binop($1, Or,    $3)   }
+  | expr XOR    expr  { Binop($1, Xor,    $3)  }
   | MINUS expr %prec NOT 				        { Unop(Neg, $2)      }
   | NOT expr         					          { Unop(Not, $2)          }
   | IDENTIFIER ASSIGN expr              { Assign($1, $3)         }

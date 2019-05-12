@@ -138,7 +138,7 @@ let translate (globals, functions) =
 	  | A.Leq     -> L.build_fcmp L.Fcmp.Ole
 	  | A.Greater -> L.build_fcmp L.Fcmp.Ogt
 	  | A.Geq     -> L.build_fcmp L.Fcmp.Oge
-	  | A.And | A.Or | A.Mod ->
+	  | A.And | A.Or | A.Mod | A.Xor ->
 	      raise (Failure "internal error: semant should have rejected and/or on float")
 	  ) e1' e2' "tmp" builder
       | SBinop (e1, op, e2) ->
@@ -152,6 +152,7 @@ let translate (globals, functions) =
     | A.Mod     -> L.build_srem (* I know this isn't perfect, but it is close enough for now *)
 	  | A.And     -> L.build_and
 	  | A.Or      -> L.build_or
+    | A.Xor     -> L.build_xor
 	  | A.Equal   -> L.build_icmp L.Icmp.Eq
 	  | A.Neq     -> L.build_icmp L.Icmp.Ne
 	  | A.Less    -> L.build_icmp L.Icmp.Slt

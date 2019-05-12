@@ -80,10 +80,10 @@ let check (globals, functions) =
     match rvaluet with
     | Const(typ) -> (match lvaluet with
       Double -> if typ = Float then typ else (if typ = Double then typ else raise (Failure err))
-      | _ -> if lvaluet = typ then (print_string("same"); lvaluet) else raise (Failure err))
+      | _ -> if lvaluet = typ then lvaluet else raise (Failure err))
     | _ -> (match lvaluet with
       Double -> if rvaluet = Float then rvaluet else (if rvaluet = Double then rvaluet else raise (Failure err))
-      | _ -> if lvaluet = rvaluet then (print_string("same"); lvaluet) else raise (Failure err))
+      | _ -> if lvaluet = rvaluet then lvaluet else raise (Failure err))
     in   
 
     let check_const_assign lvaluet rvaluet err =
@@ -139,13 +139,13 @@ let check (globals, functions) =
           let same = t1 = t2 in
           (* Determine expression type based on operator and operand types *)
           let ty = match op with
-            Add | Sub | Mult | Div | Mod when same && t1 = Int   -> Int
+            Add | Sub | Mult | Div | Mod | Xor when same && t1 = Int   -> Int
           | Add | Sub | Mult | Div when same && t1 = Float -> Float
           | Add | Sub | Mult | Div when same && t1 = Double -> Double
           | Equal | Neq            when same               -> Bool
           | Less | Leq | Greater | Geq
                      when same && (t1 = Int || t1 = Float) -> Bool
-          | And | Or when same && t1 = Bool -> Bool
+          | And | Or | Xor when same && t1 = Bool -> Bool
           | _ -> raise (
 	      Failure ("illegal binary operator " ^
                        string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^

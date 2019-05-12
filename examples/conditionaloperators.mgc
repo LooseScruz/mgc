@@ -1,0 +1,13 @@
+int main():
+	bool b
+	bool c
+	b = true
+	c = false
+	if (b && c):
+		print(1)
+	if (b || c):
+		print(2)
+	if (b == c):
+		print(3)
+	if (b != c):
+		print(4)

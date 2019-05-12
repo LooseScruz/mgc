@@ -47,7 +47,7 @@ and _token = parse
 | "const"			{ CONST }
 | "[]"				{ ARRAY }
 | "=="				{ EQ }
-| "!="				{ NE }
+| "!="				{ NEQ }
 | '<'				{ LT }
 | "<="				{ LE }
 | '>'				{ GT }
@@ -59,6 +59,11 @@ and _token = parse
 | '/'				{ DIVIDE }
 | '*'				{ TIMES }
 | '%'				{ MOD }
+| "||"				{ OR }
+| "&&"				{ AND }
+| '|'				{ BITOR }
+| '&'				{ BITAND }
+| '^'				{ XOR }
 | '('      			{ LPAREN }
 | ')'      			{ RPAREN }
 | '{'      			{ INDENT }
