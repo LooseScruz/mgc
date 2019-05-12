@@ -45,6 +45,7 @@ and _token = parse
 | "null"			{ NULL }
 | "new"				{ NEW }
 | "const"			{ CONST }
+| "unsigned"		{ UNSIGNED }
 | "[]"				{ ARRAY }
 | "=="				{ EQ }
 | "!="				{ NEQ }

@@ -5,7 +5,7 @@ type op = Add | Sub | Mult | Div | Equal | Neq | Less | Leq | Greater | Geq | Mo
 
 type uop = Neg | Not
 
-type typ = Int | Bool | Float | Double | Void | Const of typ
+type typ = Int | Bool | Float | Double | UInt | Void | Const of typ
 
 type expr =
     Literal of int
@@ -97,6 +97,7 @@ let rec string_of_typ = function
   | Float -> "float"
   | Double -> "double"
   | Void -> "void"
+  | UInt -> "unsigned int"
   | Const(t) -> "const " ^ string_of_typ t
 
 let string_of_vdecl (t, id) = string_of_typ t ^ " " ^ id ^ ";\n"

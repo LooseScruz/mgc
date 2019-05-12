@@ -83,6 +83,8 @@ let check (globals, functions) =
       | _ -> if lvaluet = typ then lvaluet else raise (Failure err))
     | _ -> (match lvaluet with
       Double -> if rvaluet = Float then rvaluet else (if rvaluet = Double then rvaluet else raise (Failure err))
+      | Int -> if rvaluet = UInt then rvaluet else (if rvaluet = Int then rvaluet else raise (Failure err))
+      | UInt -> if rvaluet = Int then rvaluet else (if rvaluet = UInt then rvaluet else raise (Failure err))
       | _ -> if lvaluet = rvaluet then lvaluet else raise (Failure err))
     in   
 

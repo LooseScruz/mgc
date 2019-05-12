@@ -41,6 +41,7 @@ let translate (globals, functions) =
     | A.Float   -> float_t
     | A.Double  -> double_t
     | A.Void    -> void_t
+    | A.UInt    -> i32_t
     | A.Const(t)-> ltype_of_typ(t)
   in
 

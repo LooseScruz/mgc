@@ -1,0 +1,4 @@
+int main():
+	unsigned int x
+	x = 2
+	print(x)

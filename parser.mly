@@ -28,7 +28,7 @@
 
 %token INDENT DEDENT
 
-%token CONST
+%token CONST UNSIGNED
 
 %nonassoc NOELSE
 %nonassoc ELSE
@@ -71,11 +71,12 @@ formal_list:
   | formal_list COMMA typ IDENTIFIER { ($3,$4) :: $1 }
 
 typ:
-    INT     { Int   }
-  | BOOL    { Bool  }
-  | FLOAT   { Float }
-  | DOUBLE  { Double }
-  | VOID    { Void  }
+    INT           { Int   }
+  | BOOL          { Bool  }
+  | FLOAT         { Float }
+  | DOUBLE        { Double }
+  | UNSIGNED INT  { UInt }
+  | VOID          { Void  }
   | CONST typ {Const($2)}
 
 vdecl_list:
