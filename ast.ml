@@ -1,11 +1,11 @@
 (* Abstract Syntax Tree and functions for printing it *)
 
-type op = Add | Sub | Mult | Div | Equal | Neq | Less | Leq | Greater | Geq |
+type op = Add | Sub | Mult | Div | Equal | Neq | Less | Leq | Greater | Geq | Mod |
           And | Or
 
 type uop = Neg | Not
 
-type typ = Int | Bool | Float | Void
+type typ = Int | Bool | Float | Double | Void
 
 type expr =
     Literal of int
@@ -27,6 +27,7 @@ type stmt =
   | If of expr * stmt * stmt
   | For of expr * expr * expr * stmt
   | While of expr * stmt
+  | DoWhile of expr * stmt
 
 type func_decl = {
     typ : typ;
@@ -45,6 +46,7 @@ let string_of_op = function
   | Sub -> "-"
   | Mult -> "*"
   | Div -> "/"
+  | Mod -> "%"
   | Equal -> "=="
   | Neq -> "!="
   | Less -> "<"
@@ -84,11 +86,13 @@ let rec string_of_stmt = function
       "for (" ^ string_of_expr e1  ^ " ; " ^ string_of_expr e2 ^ " ; " ^
       string_of_expr e3  ^ ") " ^ string_of_stmt s
   | While(e, s) -> "while (" ^ string_of_expr e ^ ") " ^ string_of_stmt s
+  | DoWhile(e, s) -> "do " ^ string_of_stmt s ^ "while (" ^ string_of_expr e ^ ")\n"
 
 let string_of_typ = function
     Int -> "int"
   | Bool -> "bool"
   | Float -> "float"
+  | Double -> "double"
   | Void -> "void"
 
 let string_of_vdecl (t, id, _) = string_of_typ t ^ " " ^ id ^ ";\n"

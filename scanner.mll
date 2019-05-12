@@ -29,9 +29,11 @@ and _token = parse
 | "long"			{ LONG }
 | "bool"			{ BOOL }
 | "float"			{ FLOAT }
+| "double"			{ DOUBLE }
 | "if"				{ IF }
 | "else"			{ ELSE }
 | "while"			{ WHILE }
+| "do"				{ DO }
 | "return"			{ RETURN }
 | "struct"			{ STRUCT }
 | "null"			{ NULL }
@@ -45,10 +47,10 @@ and _token = parse
 | '>'				{ GT }
 | ">="				{ GE }
 | '='				{ ASSIGN }
-| '+'				{ ADD }
-| '-'				{ SUB }
-| '/'				{ DIV }
-| '*'				{ MUL }
+| '+'				{ PLUS }
+| '-'				{ MINUS }
+| '/'				{ DIVIDE }
+| '*'				{ TIMES }
 | '%'				{ MOD }
 | '('      			{ LPAREN }
 | ')'      			{ RPAREN }

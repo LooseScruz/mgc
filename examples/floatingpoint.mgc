@@ -1,0 +1,7 @@
+int main():
+	float f
+	float two
+	double d
+	double twod
+	double dr
+	f = 2147483647.

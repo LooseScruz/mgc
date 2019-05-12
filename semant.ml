@@ -38,10 +38,11 @@ let check (globals, functions) =
       fname = name; 
       formals = [(ty, "x", None)];
       locals = []; body = [] } map
-    in List.fold_left add_bind StringMap.empty [ ("print", Int, None);
-			                         ("printb", Bool, None);
-			                         ("printf", Float, None);
-			                         ("printbig", Int, None) ]
+    in List.fold_left add_bind StringMap.empty [ ("print", Int);
+			                         ("printb", Bool);
+			                         ("printf", Float);
+			                         ("printbig", Int);
+                               ("printd", Double) ]
   in
 
   (* Add function name to symbol table *)
@@ -76,7 +77,9 @@ let check (globals, functions) =
     (* Raise an exception if the given rvalue type cannot be assigned to
        the given lvalue type *)
     let check_assign lvaluet rvaluet err =
-       if lvaluet = rvaluet then lvaluet else raise (Failure err)
+    match lvaluet with
+    Double -> if rvaluet = Float then rvaluet else (if rvaluet = Double then rvaluet else raise (Failure err))
+    | _ -> if lvaluet = rvaluet then (print_string("same"); lvaluet) else raise (Failure err)
     in   
 
     (* Build local symbol table of variables for this function *)
@@ -119,8 +122,9 @@ let check (globals, functions) =
           let same = t1 = t2 in
           (* Determine expression type based on operator and operand types *)
           let ty = match op with
-            Add | Sub | Mult | Div when same && t1 = Int   -> Int
+            Add | Sub | Mult | Div | Mod when same && t1 = Int   -> Int
           | Add | Sub | Mult | Div when same && t1 = Float -> Float
+          | Add | Sub | Mult | Div when same && t1 = Double -> Double
           | Equal | Neq            when same               -> Bool
           | Less | Leq | Greater | Geq
                      when same && (t1 = Int || t1 = Float) -> Bool
@@ -159,6 +163,7 @@ let check (globals, functions) =
       | For(e1, e2, e3, st) ->
 	  SFor(expr e1, check_bool_expr e2, expr e3, check_stmt st)
       | While(p, s) -> SWhile(check_bool_expr p, check_stmt s)
+      | DoWhile(p, s) -> SDoWhile(check_bool_expr p, check_stmt s)
       | Return e -> let (t, e') = expr e in
         if t = func.typ then SReturn (t, e') 
         else raise (

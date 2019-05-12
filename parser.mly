@@ -2,8 +2,8 @@
  %}
 
 
-%token VOID CHAR INT STRING LONG FLOAT BOOL
-%token IF ELSE WHILE RETURN STRUCT FOR
+%token VOID CHAR INT STRING LONG FLOAT DOUBLE BOOL
+%token IF ELSE WHILE RETURN STRUCT FOR DO
 %token NULL NEW ARRAY
 %token EQ NE LT LE GT GE
 %token <char> CHARCON
@@ -23,7 +23,7 @@
 %token PARAMLIST PROTOTYPE DECLID
 %token LPAREN RPAREN COMMA COLON
 
-%token MUL ADD SUB MOD DIV
+%token TIMES DIVIDE PLUS MINUS MOD
 %token ASSIGN NOT
 
 %token INDENT DEDENT
@@ -71,10 +71,11 @@ formal_list:
   | formal_list COMMA typ IDENTIFIER { ($3,$4) :: $1 }
 
 typ:
-    INT   { Int   }
-  | BOOL  { Bool  }
-  | FLOAT { Float }
-  | VOID  { Void  }
+    INT     { Int   }
+  | BOOL    { Bool  }
+  | FLOAT   { Float }
+  | DOUBLE  { Double }
+  | VOID    { Void  }
 
 vdecl_list:
     /* nothing */    { [] }
@@ -96,6 +97,7 @@ stmt:
                                                   { For($3, $4, $5, $8)   }
   | stmt_if                                       { $1 }
   | WHILE LPAREN expr RPAREN COLON stmt           { While($3, $6)         }
+  | DO COLON stmt WHILE LPAREN expr RPAREN        { DoWhile($6, $3)}
 
 stmt_if:
   | IF LPAREN expr RPAREN COLON stmt stmt_if_end { If($3, $6, $7) }
@@ -117,7 +119,8 @@ expr:
   | expr PLUS   expr 	{ Binop($1, Add,   $3)   }
   | expr MINUS  expr 	{ Binop($1, Sub,   $3)   }
   | expr TIMES  expr 	{ Binop($1, Mult,  $3)   }
-  | expr DIVIDE expr 	{ Binop($1, Div,   $3)   }
+  | expr DIVIDE expr  { Binop($1, Div,   $3)   }
+  | expr MOD expr     { Binop($1, Mod,   $3)   }
   | expr EQ     expr 	{ Binop($1, Equal, $3)   }
   | expr NEQ    expr 	{ Binop($1, Neq,   $3)   }
   | expr LT     expr 	{ Binop($1, Less,  $3)   }
