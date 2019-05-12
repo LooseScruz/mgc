@@ -5,9 +5,21 @@ int main():
 	c = false
 	if (b && c):
 		print(1)
+	if (b and c):
+		print(1)
 	if (b || c):
+		print(2)
+	if (b or c):
 		print(2)
 	if (b == c):
 		print(3)
+	if (b equals c):
+		print(3)
+	if (b is c):
+		print(3)
 	if (b != c):
+		print(4)
+	if (b isnot c):
+		print(4)
+	if (b isn't c):
 		print(4)

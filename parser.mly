@@ -3,7 +3,7 @@
 
 
 %token VOID CHAR INT STRING LONG FLOAT DOUBLE BOOL
-%token IF ELSE WHILE RETURN STRUCT FOR DO
+%token IF ELSE ELIF WHILE RETURN STRUCT FOR DO
 %token NULL NEW ARRAY
 %token EQ NEQ LT LE GT GE
 %token <char> CHARCON
@@ -32,6 +32,7 @@
 
 %nonassoc NOELSE
 %nonassoc ELSE
+%nonassoc ELIF
 %right ASSIGN CONSTASSIGN
 %left OR
 %left AND
@@ -77,7 +78,7 @@ typ:
   | DOUBLE        { Double }
   | UNSIGNED INT  { UInt }
   | VOID          { Void  }
-  | CONST typ {Const($2)}
+  | CONST typ     { Const($2) }
 
 vdecl_list:
     /* nothing */    { [] }
@@ -106,6 +107,7 @@ stmt_if:
 stmt_if_end:
 | { Block([]) }
 | ELSE IF LPAREN expr RPAREN COLON stmt stmt_if_end  { If($4, $7, $8) }
+| ELIF LPAREN expr RPAREN COLON stmt stmt_if_end  { If($3, $6, $7) }
 | ELSE COLON stmt                                    { $3 }
 
 expr_opt:
