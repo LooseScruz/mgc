@@ -8,8 +8,5 @@ To build:
 4. opam install llvm
 5. make
 
-
-Notes:
-
-String:
-	| '"' [^ '"']* '"' as lxm { STRINGCON (lxm)  }
+To run:
+./mgc.native {source}
